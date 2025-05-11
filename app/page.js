@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import FileCreator from "./components/FileCreator";
 import MainButtons from "./components/MainButtons";
 import { testObject, defaultObject, modifiedTestObject } from "./fileObjects";
 import FileView from "./components/FileView";
 import ImageUpload from "./components/ImageUpload";
 import FolderNameInput from "./components/FolderNameInput";
+import ExamCreator from "./components/ExamCreator";
 
 export default function Home() {
   const [files, setFiles] = useState(modifiedTestObject);
@@ -82,6 +82,8 @@ export default function Home() {
     }
   };
 
+  const [openCreateExam, setOpenCreateExam] = useState(false);
+
   return (
     <div className="flex flex-col w-full min-h-screen">
       <nav className="flex bg-black w-full h-16 gap-5 px-5 items-center">
@@ -110,6 +112,7 @@ export default function Home() {
             <MainButtons
               setOpenFileUpload={setOpenFileUpload}
               setOpenFolderNameInput={setOpenFolderNameInput}
+              setOpenCreateExam={setOpenCreateExam}
             />
           </div>
           {files.quizUploads.headers.map((header, index) => (
@@ -128,6 +131,7 @@ export default function Home() {
               mockExams={true}
               setOpenFileUpload={setOpenFileUpload}
               setOpenFolderNameInput={setOpenFolderNameInput}
+              setOpenCreateExam={setOpenCreateExam}
             />
           </div>
           {files.mockExams.headers.map((header, index) => (
@@ -155,6 +159,11 @@ export default function Home() {
                 getAllFolderNames={getAllFolderNames}
                 setOpenFileUpload={setOpenFileUpload}
               />
+            </>
+          )}
+          {openCreateExam && (
+            <>
+              <ExamCreator files={files} />
             </>
           )}
 

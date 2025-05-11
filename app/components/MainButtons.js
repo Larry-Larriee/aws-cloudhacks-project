@@ -5,6 +5,7 @@ export default function MainButtons({
   mockExams = false,
   setOpenFolderNameInput,
   setOpenFileUpload,
+  setOpenCreateExam,
 }) {
   return (
     <>
@@ -34,7 +35,11 @@ export default function MainButtons({
       {quizUploads == false && mockExams == true && (
         <article className="flex gap-5">
           <div className="bg-amazon-orange flex justify-center items-center w-36 h-10 rounded-xl">
-            <a href="#" className="text-xl text-black">
+            <a
+              href="#"
+              className="text-xl text-black"
+              onClick={() => setOpenCreateExam(true)}
+            >
               Create Exam
             </a>
           </div>

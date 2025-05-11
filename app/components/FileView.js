@@ -2,10 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 export default function FileView({ mockExams = false, viewingFile }) {
-  console.log(viewingFile);
   return (
     <>
-      {viewingFile && ( // null doesn't like to work
+      {viewingFile && (
         <>
           <Image
             alt="temporary image"
