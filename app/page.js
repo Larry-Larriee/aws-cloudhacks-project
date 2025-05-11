@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import FileCreator from "./components/FileCreator";
 import MainButtons from "./components/MainButtons";
-import testObject from "./fileObjects";
+import { testObject, defaultObject } from "./fileObjects";
 
 export default function Home() {
   const [files, setFiles] = useState(testObject);
@@ -36,19 +36,25 @@ export default function Home() {
             <p className="text-amazon-white text-xl">Quiz Uploads:</p>
             <MainButtons />
           </div>
-
-          <FileCreator />
-          <FileCreator />
-
+          {files.quizUploads.headers.map((header, index) => (
+            <FileCreator
+              key={index}
+              name={header.name}
+              images={header.images}
+            />
+          ))}
           <div className="ml-5 w-line border-b-2 border-amazon-white"></div>
-
           <div className="flex justify-between ml-5 mr-10 items-center">
             <p className="text-amazon-white text-xl">Mock Exams:</p>
             <MainButtons quizUploads={false} mockExams={true} />
           </div>
-
-          <FileCreator />
-          <FileCreator />
+          {files.mockExams.headers.map((header, index) => (
+            <FileCreator
+              key={index}
+              name={header.name}
+              images={header.images}
+            />
+          ))}
         </section>
 
         <div className="w-full h-full"></div>

@@ -1,14 +1,24 @@
 import React from "react";
+import Image from "next/image";
+import generateRandomString from "../randomString";
 
-export default function FileCreator() {
+export default function FileCreator({ name, images }) {
+  console.log(images);
+
   return (
     <div className="flex flex-col gap-5 mx-5">
-      <h1 className="text-white text-2xl">My Upcoming Midterm 5/25</h1>
+      <h1 className="text-white text-2xl">{name}</h1>
       <section className="flex flex-col gap-1 px-5">
-        <p className="text-white text-lg">Old Quiz 3.png</p>
-        <p className="text-white text-lg">Old Quiz 1.png</p>
-        <p className="text-white text-lg">Old Quiz 6.png</p>
-        <p className="text-white text-lg">Old Quiz 5.png</p>
+        {images.map((image) => (
+          // onClick, maybe send back to page the blob url (just make
+          // sure you're not prop drilling too much lol)
+          <p
+            className="text-white text-lg"
+            key={generateRandomString(12) + image}
+          >
+            {image.name}
+          </p>
+        ))}
       </section>
     </div>
   );
