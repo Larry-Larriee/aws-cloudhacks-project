@@ -26,23 +26,20 @@ export default function ExamCreator({ files }) {
     );
     console.log("Base64 String:", base64String);
 
-    fetch(
-      "https://gnqbg0e000.execute-api.us-west-2.amazonaws.com/quiz-image/quiz-image",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: base64String,
-          id: generateRandomString(10),
-          "file-location":
-            files.quizUploads.headers[1] +
-            "/" +
-            files.quizUploads.headers[1].images[0].name,
-        }),
-      }
-    ).then((response) => {
+    fetch("https://gnqbg0e000.execute-api.us-west-2.amazonaws.com/quiz-image", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: base64String,
+        id: generateRandomString(10),
+        "file-location":
+          files.quizUploads.headers[1] +
+          "/" +
+          files.quizUploads.headers[1].images[0].name,
+      }),
+    }).then((response) => {
       console.log(response);
     });
   };
