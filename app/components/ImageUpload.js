@@ -1,16 +1,47 @@
-import React, { useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-function MyDropzone({ files, changeFiles }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      console.log("Dropped file:", file); // This is a File (Blob) object
+function ImageUpload({ files, addFile, getAllFolderNames, setOpenFileUpload }) {
+  const [fileDragged, setFileDragged] = useState(false);
+  const [userSelectedFolderName, setUserSelectedFolderName] = useState("");
 
-      //   changeFiles();
+  const [middlemanFileStorage, setMiddlemanFileStorage] = useState({});
 
-      // You can now use this 'file' Blob
-    });
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      setFileDragged(true);
+
+      acceptedFiles.forEach(async (file) => {
+        setMiddlemanFileStorage(() => {
+          return {
+            ...middlemanFileStorage,
+            file, // You can now use this 'file' Blob
+          };
+        });
+      });
+    },
+    [middlemanFileStorage, setMiddlemanFileStorage]
+  );
+
+  useEffect(() => {
+    console.log(middlemanFileStorage);
+  }, [middlemanFileStorage]);
+
+  useEffect(() => {
+    if (
+      userSelectedFolderName !== "" &&
+      Object.keys(middlemanFileStorage).length > 0
+    ) {
+      addFile(userSelectedFolderName, middlemanFileStorage.file);
+      setOpenFileUpload(false);
+      setFileDragged(false);
+    }
+  }, [
+    addFile,
+    middlemanFileStorage,
+    setOpenFileUpload,
+    userSelectedFolderName,
+  ]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -18,12 +49,39 @@ function MyDropzone({ files, changeFiles }) {
   });
 
   return (
-    <div {...getRootProps()} style={dropzoneStyle}>
-      <input {...getInputProps()} />
-      <p className="text-xl text-black">
-        Drag and drop some images here, or click to select files
-      </p>
-    </div>
+    <>
+      <div {...getRootProps()} style={dropzoneStyle}>
+        <input {...getInputProps()} />
+        <p className="text-xl text-black">
+          Drag and drop some images here, or click to select files
+        </p>
+      </div>
+
+      {fileDragged && (
+        <div className="w-full px-5">
+          <p className="text-black text-2xl">
+            Select a folder to add the file into
+          </p>
+
+          {getAllFolderNames().map((folderName) => (
+            <div
+              key={folderName}
+              className="bg-amazon-orange flex justify-center items-center w-64 rounded-lg h-10  my-2"
+            >
+              <a
+                href="#"
+                onClick={(e) => {
+                  setUserSelectedFolderName(folderName);
+                }}
+                className="text-md text-black"
+              >
+                {folderName}
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 
@@ -36,4 +94,4 @@ const dropzoneStyle = {
   height: "30rem",
 };
 
-export default MyDropzone;
+export default ImageUpload;

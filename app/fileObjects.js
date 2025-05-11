@@ -77,6 +77,43 @@ var testObject = {
   },
 };
 
+var modifiedTestObject = {
+  quizUploads: {
+    headers: [
+      {
+        name: "My Upcoming Midterm 5/25",
+        images: [
+          {
+            name: "Old Quiz 3.png",
+            image: "blob://old-quiz-3.png",
+          },
+          {
+            name: "Old Quiz 1.png",
+            image: "blob://old-quiz-1.png",
+          },
+        ],
+      },
+    ],
+  },
+  mockExams: {
+    headers: [
+      {
+        name: "My Upcoming Midterm 5/25",
+        images: [
+          {
+            name: "My Upcoming Midterm.pdf",
+            image: "blob://my-upcoming-midterm.png",
+          },
+          {
+            name: "My Upcoming Midterm - Answer Key.pdf",
+            image: "blob://my-upcoming-midterm-answers.png",
+          },
+        ],
+      },
+    ],
+  },
+};
+
 var defaultObject = {
   quizUploads: {
     headers: [
@@ -105,4 +142,4 @@ var defaultObject = {
 };
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export { testObject, defaultObject };
+export { testObject, defaultObject, modifiedTestObject };

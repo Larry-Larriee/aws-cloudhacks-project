@@ -4,14 +4,83 @@ import React, { useState } from "react";
 import Image from "next/image";
 import FileCreator from "./components/FileCreator";
 import MainButtons from "./components/MainButtons";
-import { testObject, defaultObject } from "./fileObjects";
+import { testObject, defaultObject, modifiedTestObject } from "./fileObjects";
 import FileView from "./components/FileView";
 import ImageUpload from "./components/ImageUpload";
+import FolderNameInput from "./components/FolderNameInput";
 
 export default function Home() {
-  const [files, setFiles] = useState(testObject);
+  const [files, setFiles] = useState(modifiedTestObject);
+  const [openFileUpload, setOpenFileUpload] = useState(false);
+  const [viewingFile, setViewingFile] = useState();
 
-  const changeFiles = (newFiles) => {};
+  const changeViewingFile = (file) => {
+    setViewingFile(file);
+  };
+
+  const addFolder = (folder) => {
+    let newFiles = {
+      // ... uses existing elements in the object
+      ...files,
+      quizUploads: {
+        ...files.quizUploads,
+        headers: [
+          ...files.quizUploads.headers,
+          {
+            name: folder,
+            images: [],
+          },
+        ],
+      },
+      mockExams: {
+        ...files.mockExams,
+        headers: [
+          ...files.mockExams.headers,
+          {
+            name: folder,
+            images: [],
+          },
+        ],
+      },
+    };
+    setFiles(newFiles);
+  };
+
+  const getAllFolderNames = () => {
+    let folderNames = [];
+    files.quizUploads.headers.forEach((header) => {
+      folderNames.push(header.name);
+    });
+    return folderNames;
+  };
+
+  const addFile = (folder, file) => {
+    files.quizUploads.headers.forEach((header) => {
+      if (header.name === folder) {
+        header.images.push({
+          image: file,
+          name: file.name,
+        });
+      }
+
+      console.log(files);
+    });
+  };
+
+  const [folderName, setFolderName] = useState("");
+  const [openFolderNameInput, setOpenFolderNameInput] = useState(false);
+
+  const changeFolderName = (event) => {
+    setFolderName(event.target.value);
+  };
+
+  const confirmFolderName = () => {
+    if (folderName !== "") {
+      addFolder(folderName);
+      setFolderName("");
+      setOpenFolderNameInput(false);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -34,23 +103,32 @@ export default function Home() {
         <p className="text-white text-2xl">Cognition</p>
       </nav>
 
-      <main className="flex w-full h-full">
+      <main className="flex w-full min-h-screen">
         <section className="w-section min-h-96 py-5 flex flex-col gap-6 bg-amazon-blue">
           <div className="flex justify-between ml-5 mr-10 items-center">
             <p className="text-amazon-white text-xl">Quiz Uploads:</p>
-            <MainButtons />
+            <MainButtons
+              setOpenFileUpload={setOpenFileUpload}
+              setOpenFolderNameInput={setOpenFolderNameInput}
+            />
           </div>
           {files.quizUploads.headers.map((header, index) => (
             <FileCreator
               key={index}
               name={header.name}
               images={header.images}
+              changeViewingFile={changeViewingFile}
             />
           ))}
           <div className="ml-5 w-line border-b-2 border-amazon-white"></div>
           <div className="flex justify-between ml-5 mr-10 items-center">
             <p className="text-amazon-white text-xl">Mock Exams:</p>
-            <MainButtons quizUploads={false} mockExams={true} />
+            <MainButtons
+              quizUploads={false}
+              mockExams={true}
+              setOpenFileUpload={setOpenFileUpload}
+              setOpenFolderNameInput={setOpenFolderNameInput}
+            />
           </div>
           {files.mockExams.headers.map((header, index) => (
             <FileCreator
@@ -62,8 +140,25 @@ export default function Home() {
         </section>
 
         <div className="py-5 gap-8 w-full flex items-center min-h-full flex-col">
-          {/* <FileView /> */}
-          <ImageUpload files={files} changeFiles={changeFiles} />
+          {openFolderNameInput && (
+            <FolderNameInput
+              folderName={folderName}
+              changeFolderName={changeFolderName}
+              confirmFolderName={confirmFolderName}
+            />
+          )}
+          {openFileUpload && (
+            <>
+              <ImageUpload
+                files={files}
+                addFile={addFile}
+                getAllFolderNames={getAllFolderNames}
+                setOpenFileUpload={setOpenFileUpload}
+              />
+            </>
+          )}
+
+          <FileView viewingFile={viewingFile} />
         </div>
       </main>
     </div>
