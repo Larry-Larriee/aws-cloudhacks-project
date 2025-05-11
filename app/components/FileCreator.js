@@ -3,8 +3,6 @@ import Image from "next/image";
 import generateRandomString from "../randomString";
 
 export default function FileCreator({ name, images }) {
-  console.log(images);
-
   return (
     <div className="flex flex-col gap-5 mx-5">
       <h1 className="text-white text-2xl">{name}</h1>

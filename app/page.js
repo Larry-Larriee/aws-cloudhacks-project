@@ -5,9 +5,13 @@ import Image from "next/image";
 import FileCreator from "./components/FileCreator";
 import MainButtons from "./components/MainButtons";
 import { testObject, defaultObject } from "./fileObjects";
+import FileView from "./components/FileView";
+import ImageUpload from "./components/ImageUpload";
 
 export default function Home() {
   const [files, setFiles] = useState(testObject);
+
+  const changeFiles = (newFiles) => {};
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -30,8 +34,8 @@ export default function Home() {
         <p className="text-white text-2xl">Cognition</p>
       </nav>
 
-      <main className="flex w-3/4 h-full">
-        <section className="w-full min-h-96 py-5 flex flex-col gap-6 bg-amazon-blue">
+      <main className="flex w-full h-full">
+        <section className="w-section min-h-96 py-5 flex flex-col gap-6 bg-amazon-blue">
           <div className="flex justify-between ml-5 mr-10 items-center">
             <p className="text-amazon-white text-xl">Quiz Uploads:</p>
             <MainButtons />
@@ -57,7 +61,10 @@ export default function Home() {
           ))}
         </section>
 
-        <div className="w-full h-full"></div>
+        <div className="py-5 gap-8 w-full flex items-center min-h-full flex-col">
+          {/* <FileView /> */}
+          <ImageUpload files={files} changeFiles={changeFiles} />
+        </div>
       </main>
     </div>
   );
