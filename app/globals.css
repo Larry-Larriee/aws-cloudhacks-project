@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@theme {
+  --color-amazon-orange: #ff9900;
+  --color-amazon-blue: #232f3e;
+  --color-amazon-white: #f2f2f2;
+}
