@@ -10,5 +10,5 @@ export default function generateRandomString(length) {
 }
 
 // Example usage
-const randomString = generateRandomString(10);
-console.log(randomString);
+// const randomString = generateRandomString(10);
+// console.log(randomString);

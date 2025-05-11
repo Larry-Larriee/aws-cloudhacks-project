@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "example.com",
+        hostname: "*",
         pathname: "/*", // Optional: You can specify a specific pathname or pattern
       },
       //   {
@@ -14,6 +14,7 @@ const nextConfig = {
       //   },
     ],
   },
+  allowedDevOrigins: ["*", "http://localhost:3000"],
 };
 
 export default nextConfig;
