@@ -1,9 +1,16 @@
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import FileCreator from "./components/FileCreator";
+import MainButtons from "./components/MainButtons";
+import testObject from "./fileObjects";
 
 export default function Home() {
+  const [files, setFiles] = useState(testObject);
+
   return (
-    <div className="flex flex-col w-full h-screen">
+    <div className="flex flex-col w-full min-h-screen">
       <nav className="flex bg-black w-full h-16 gap-5 px-5 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,22 +31,20 @@ export default function Home() {
       </nav>
 
       <main className="flex w-3/4 h-full">
-        <section className="w-full min-h-96 flex flex-col gap-8 bg-amazon-blue">
-          <div className="flex justify-between mt-5 ml-5 mr-10 items-center">
+        <section className="w-full min-h-96 py-5 flex flex-col gap-6 bg-amazon-blue">
+          <div className="flex justify-between ml-5 mr-10 items-center">
             <p className="text-amazon-white text-xl">Quiz Uploads:</p>
+            <MainButtons />
+          </div>
 
-            <article className="flex gap-5">
-              <div className="bg-amazon-orange flex justify-center items-center w-36 h-10 rounded-xl">
-                <a href="#" className="text-xl">
-                  Create Folder
-                </a>
-              </div>
-              <div className="bg-amazon-orange flex justify-center items-center w-36 h-10 rounded-xl">
-                <a href="#" className="text-xl">
-                  Upload Image
-                </a>
-              </div>
-            </article>
+          <FileCreator />
+          <FileCreator />
+
+          <div className="ml-5 w-line border-b-2 border-amazon-white"></div>
+
+          <div className="flex justify-between ml-5 mr-10 items-center">
+            <p className="text-amazon-white text-xl">Mock Exams:</p>
+            <MainButtons quizUploads={false} mockExams={true} />
           </div>
 
           <FileCreator />
